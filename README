@@ -1,0 +1,9 @@
+python-salesforce
+
+Python library and client for authorization and authentication against Salesforce RESTful interface
+
+Supports:
+
+  * OAuth 1.0a
+  * Salesforce API version 24.0
+  * Salesforce JSON implementation
