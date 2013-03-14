@@ -1,5 +1,5 @@
 import requests
-import requests_oauthlib import OAuth1
+from requests_oauthlib import OAuth1
 from urlparse import parse_qs
 
 class Connect(object):
@@ -14,11 +14,11 @@ class Connect(object):
         self.oauth_token_secret = None
         self.sandbox = sandbox
 
-    @staticmethod
-    def _root_url():
-    if self.sandbox:
-        return "https://test.salesforce.com"
-    return "https://login.salesforce.com"
+    @property
+    def _root_url(self):
+        if self.sandbox:
+            return "https://test.salesforce.com"
+        return "https://login.salesforce.com"
 
     def request(self):
         """ Request phase """
