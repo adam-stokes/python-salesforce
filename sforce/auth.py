@@ -35,7 +35,7 @@ class Connect(object):
         authorize_url = authorize_url_root + authorize_url_query
         # TODO: Add either https callback or manual addition of verifier token
         return
-        
+
     def access(self, verifier):
         """ Access phase """
         access_url = self._root_url + self.access_path
