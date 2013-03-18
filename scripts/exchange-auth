@@ -1,0 +1,35 @@
+#!/usr/bin/env python
+#
+# Simple SSL server to process Salesforce callback
+# Generate your self signed cert like this
+#
+# openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes
+
+import BaseHTTPServer, SimpleHTTPServer
+import ssl
+import urlparse
+from pprint import pprint
+
+class SFHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        parsedParams = urlparse.urlparse(self.path)
+        queryParsed = urlparse.parse_qs(parsedParams.query)
+        if parsedParams.path == "/callback":
+            self.processMyRequest(queryParsed)
+        else:
+            SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
+
+    def processMyRequest(self, query):
+        pprint(query)
+        self.send_response(200)
+        self.send_header('Content-Type', 'text/html')
+        self.end_headers()
+        self.wfile.write(query)
+
+httpd = BaseHTTPServer.HTTPServer(('localhost', 4443), SFHandler)
+httpd.socket = ssl.wrap_socket(httpd.socket,
+                               certfile='server.pem',
+                               server_side=True)
+httpd.serve_forever()
+
+# vim: syntax=python
