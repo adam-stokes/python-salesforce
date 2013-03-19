@@ -4,32 +4,52 @@
 # Generate your self signed cert like this
 #
 # openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes
+# A few requirements::
+# pip install cherrypy bottle pyopenssl
 
-import BaseHTTPServer, SimpleHTTPServer
-import ssl
 import urlparse
+import os
+import json
+from bottle import Bottle, route, run, request, server_names, ServerAdapter
+from sforce import auth
 from pprint import pprint
 
-class SFHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        parsedParams = urlparse.urlparse(self.path)
-        queryParsed = urlparse.parse_qs(parsedParams.query)
-        if parsedParams.path == "/callback":
-            self.processMyRequest(queryParsed)
-        else:
-            SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
+# from http://dgtool.blogspot.com.au/2011/12/ssl-encryption-in-python-bottle.html
+# need to support SSL on localhost b/c Salesforce requires it
+class MySSLCherry(ServerAdapter):
+    def run(self, handler):
+        from cherrypy import wsgiserver
+        server = wsgiserver.CherryPyWSGIServer((self.host, self.port), handler)
+        cert = 'server.pem'
+        server.ssl_certificate = cert
+        server.ssl_private_key = cert
+        try:
+            server.start()
+        finally:
+            server.stop()
 
-    def processMyRequest(self, query):
-        pprint(query)
-        self.send_response(200)
-        self.send_header('Content-Type', 'text/html')
-        self.end_headers()
-        self.wfile.write(query)
+server_names['mysslcherry'] = MySSLCherry
 
-httpd = BaseHTTPServer.HTTPServer(('localhost', 4443), SFHandler)
-httpd.socket = ssl.wrap_socket(httpd.socket,
-                               certfile='server.pem',
-                               server_side=True)
-httpd.serve_forever()
+app = Bottle()
+sf = auth.Connect(os.environ['SFKEY'], os.environ['SFSECRET'], 'https://localhost:4443/callback', True)
+creds = os.path.join(os.path.expanduser('~'),".sfcreds.json")
+
+@app.route('/')
+def index():
+    if os.path.exists(creds):
+        return "You are authorized already"
+    else:
+        sf.request()
+        return "<a href=%s>Authorize</a>" % (sf.authorize(),)
+
+@app.route('/callback')
+def docallback():
+    verifier = request.query.oauth_verifier
+    sf.access(verifier)
+    json_data = open(creds, 'w')
+    json.dump({'oauth_token': sf.oauth_token, 'oauth_token_secret': sf.oauth_token_secret}, json_data)
+    json_data.close()
+
+run(app, host='localhost', port=4443, server='mysslcherry')
 
 # vim: syntax=python

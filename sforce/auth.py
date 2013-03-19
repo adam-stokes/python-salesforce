@@ -1,6 +1,8 @@
+from __future__ import unicode_literals
 import requests
 from requests_oauthlib import OAuth1
-from urlparse import parse_qs
+from urlparse import parse_qs, urlunparse
+from urllib import quote_plus
 from pprint import pprint
 
 class Connect(object):
@@ -29,14 +31,15 @@ class Connect(object):
         request_url = self._root_url + self.request_path
         r = requests.post(url=request_url, auth=self.oauth)
         credentials = parse_qs(r.content)
-        self.oauth_token = credentials.get('oauth_token')
-        self.oauth_token_secret = credentials.get('oauth_token_secret')
+        self.oauth_token = credentials.get('oauth_token')[0]
+        self.oauth_token_secret = credentials.get('oauth_token_secret')[0]
 
     def authorize(self):
         """ Authorize phase """
         authorize_url_root = self._root_url + self.authorize_path
-        authorize_url_query = "?oauth_token=" + self.oauth_token + "&oauth_consumer_key=" + self.client_key
+        authorize_url_query = "?oauth_token=%s&oauth_consumer_key=%s" % (self.oauth_token, self.client_key)
         authorize_url = authorize_url_root + authorize_url_query
+        return authorize_url
 
     def access(self, verifier):
         """ Access phase """
@@ -48,5 +51,6 @@ class Connect(object):
                        verifier=verifier)
         r = requests.post(url=access_url, auth=oauth)
         credentials = parse_qs(r.content)
-        self.oauth_token = credentials.get('oauth_token')
-        self.oauth_token_secret = credentials.get('oauth_token_secret')
+        self.oauth_token = credentials.get('oauth_token')[0]
+        self.oauth_token_secret = credentials.get('oauth_token_secret')[0]
+
