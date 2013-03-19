@@ -7,3 +7,10 @@ Supports:
   * OAuth 1.0a
   * Salesforce API version 24.0
   * Salesforce JSON implementation
+
+Examples:
+
+  * Check in scripts/ directory for authorization and api calling
+
+Copyright 2013 Adam Stokes <adam.stokes@ubuntu.com>
+MIT
