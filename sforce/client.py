@@ -14,10 +14,11 @@ class SF(object):
         self.sessionid = None
         self.serverurl = None
         self.sandbox = sandbox
+        self.api_version = '27.0'
         if self.sandbox:
-            self.api_url = "https://test.salesforce.com/services/OAuth/u/27.0"
+            self.api_url = "https://test.salesforce.com/services/OAuth/u/%s" % (self.api_version,)
         else:
-            self.api_url = "https://login.salesforce.com/services/OAuth/u/27.0"
+            self.api_url = "https://login.salesforce.com/services/OAuth/u/%s" % (self.api_version,)
 
     def parse_envelope(self, stanza):
         """ Parses soap envelope
@@ -57,13 +58,13 @@ class SF(object):
 
     def available(self):
         ret, resources = self.request('GET',
-                "/services/data/v27.0")
-        return(0, resources)
+                "/services/data/v%s" % (self.api_version,))
+        return(ret, resources)
 
     def sobjects(self):
         ret, resources = self.request('GET',
-                "/services/data/v27.0/sobjects")
-        return(0, resources)
+                "/services/data/v%s/sobjects" % (self.api_version,))
+        return(ret, resources)
 
 
 """
@@ -73,4 +74,4 @@ if __name__=="__main__":
     sfapi = SF(True)
     ret, res = sfapi.session()
     if ret == 0:
-        pprint(sfapi.available())
+        pprint(sfapi.sobjects())

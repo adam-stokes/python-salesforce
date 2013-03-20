@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+# vim:syntax=python
+# sfc - cli to salesforce api
+from sforce import client, account, case
+from pprint import pprint
+
+if __name__=="__main__":
+    sfc = account.SFAccount(True)
+    ret, res = sfc.session()
+    if ret == 0:
+        pprint(sfc.describe())
+        pprint(sfc.accountById('001M000000P0UzbIAF'))
