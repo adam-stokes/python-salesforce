@@ -49,6 +49,7 @@ def docallback():
     json_data = open(creds, 'w')
     json.dump({'oauth_token': sf.oauth_token, 'oauth_token_secret' : sf.oauth_token_secret, 'oauth_consumer_key': sf.client_key}, json_data)
     json_data.close()
+    return "hoorah! im authed, and tokens saved."
 
 run(app, host='localhost', port=4443, server='mysslcherry')
 
