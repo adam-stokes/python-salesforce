@@ -1,6 +1,6 @@
-from sforce import client
+from sforce.models import Schema
 
-class SFCase(client.SF):
+class SFCase(Schema):
     def describe(self):
         """ Describe an Case object metadata
         """

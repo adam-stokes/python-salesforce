@@ -5,8 +5,11 @@ from sforce import client, account, case
 from pprint import pprint
 
 if __name__=="__main__":
-    sfc = account.SFAccount(True)
+    sfc = client.SF(True)
+    # initialize session
     ret, res = sfc.session()
     if ret == 0:
-        pprint(sfc.describe())
-        pprint(sfc.accountById('001M000000P0UzbIAF'))
+        # retrieve some data
+        account = account.SFAccount()
+        pprint(account.describe())
+        pprint(account.accountById('001M000000P0UzbIAF'))
