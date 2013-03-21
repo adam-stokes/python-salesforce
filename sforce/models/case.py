@@ -1,6 +1,9 @@
 from sforce.models import Schema
 
-class SFCase(Schema):
+class Case(Schema):
+
+    service_name = "Case" 
+
     def describe(self):
         """ Describe an Case object metadata
         """

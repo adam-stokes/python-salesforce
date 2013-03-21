@@ -1,6 +1,9 @@
 from sforce.models import Schema
 
-class SFAccount(Schema):
+class Account(Schema):
+
+    service_name = "Account"
+
     def describe(self):
         """ Describe an Account object metadata
         """
@@ -11,4 +14,5 @@ class SFAccount(Schema):
         """ get an Account by ID
         """
         return self.request('GET',
-                "/services/data/v%s/sobjects/Account/%s" % (self.api_version, str(id)))
+                "/services/data/v%s/sobjects/Account/%s" % (self.api_version,
+                                                            str(id)))

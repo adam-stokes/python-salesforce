@@ -16,6 +16,7 @@ if sys.argv[-1] == 'publish':
 
 packages = [
     'sforce',
+    'sforce.models',
 ]
 
 requires = []
