@@ -1,6 +1,8 @@
-from sforce.models import Schema
+from sforce.models import Model
 
-class Account(Schema):
-
+class Account(Model):
     service_name = "Account"
-    pass
+    customer_name = None
+    contact_email = None
+    assets = None
+    leads = None
