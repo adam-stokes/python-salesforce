@@ -2,16 +2,16 @@
 # vim:syntax=python
 # sfc - cli to salesforce api
 from sforce.models import Schema
+from sforce.models.account import Account
 from pprint import pprint
 
 if __name__=="__main__":
-    sfc = Schema(True)
+    sfc = Schema(sandbox=True)
     # List models available to us
-    pprint(sfc.services)
-    # initialize session
-    # ret, res = sfc.session()
-    # if ret == 0:
-    #     # retrieve some data
+    ret, res = sfc.session
+    if ret == 0:
+        #pprint(sfc.sobjects())
+        pprint(Account.describe())
     #     account = account.SFAccount()
     #     pprint(account.describe())
     #     pprint(account.accountById('001M000000P0UzbIAF'))

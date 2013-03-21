@@ -1,10 +1,10 @@
-import requests
+from pprint import pprint
 from requests_oauthlib import OAuth1
 from urlparse import urlparse, urljoin
-import os
-import json
 from xml.etree.ElementTree import XML, fromstring, tostring
-from pprint import pprint
+import json
+import os
+import requests
 
 class SF(object):
     """ SF Client class """
@@ -15,12 +15,21 @@ class SF(object):
         self.serverUrl = None
         self.sandbox = sandbox
         self.api_version = api_version
+        self.services = None
         if self.sandbox:
             self.api_url = "https://test.salesforce.com/services/OAuth/u/%s" % (self.api_version,)
         else:
             self.api_url = "https://login.salesforce.com/services/OAuth/u/%s" % (self.api_version,)
 
     # private
+    def __set_available_services(self):
+        """ Sets available services
+        """
+        ret, res = self.request('GET',
+                  "/services/data/v%s" % (self.api_version,))
+        if ret == 0:
+            self.services = res
+
     def __parse_envelope(self, stanza):
         """ Parses soap envelope
         """
@@ -28,6 +37,14 @@ class SF(object):
         return _parsed
 
     # public methods
+    def service(self, name, *args):
+        """ Builds service URL
+            :param name: Name of service (i.e 'sobjects')
+            :param **args: Arguments appended to service url
+        """
+        _args = "/".join(args)
+        return "/".join((self.services[name], _args))
+
     def request(self, method, endpoint):
         """ Formulates a proper request
             based on intended verb
@@ -42,6 +59,7 @@ class SF(object):
             return(0, json.loads(req.content))
         return(1, "Unknown error")
 
+    @property
     def session(self):
         """ Entry point to accessing Salesforce API.
             This method is required in order to perform requests again the REST
@@ -57,14 +75,17 @@ class SF(object):
         for item in self.__parse_envelope(r.content):
             if item.tag == "serverUrl":
                 _parse_url = urlparse(item.text)
-                self.serverUrl = "://".join((_parse_url.scheme, _parse_url.netloc))
+                self.serverUrl = "://".join((_parse_url.scheme,
+                                             _parse_url.netloc))
             if item.tag == "sessionId":
                 self.sessionId = item.text
+        # Initialize list of services available
+        self.__set_available_services()
         return(0, None)
 
 # Test
 if __name__=="__main__":
     sfapi = SF(True)
-    ret, res = sfapi.session()
+    ret, res = sfapi.session
     if ret == 0:
-        pprint(sfapi.sobjects())
+        print("Session initialized.")
