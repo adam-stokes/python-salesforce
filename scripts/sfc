@@ -15,8 +15,6 @@ if __name__=="__main__":
     # Intialize session
     sf_session(c)
     ret, res = sf_obj_get(c, '001M000000P0UzbIAF', 'Account')
-    pprint(res, indent=2)
     pprint(res.Id)
-    pprint(res.attributes.type)
-    pprint(res.attributes.url)
+    pprint(res.attributes['type'])
     pprint(res.BillingCity)

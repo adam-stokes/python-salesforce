@@ -2,6 +2,7 @@ import os
 import re
 import fnmatch
 from contextlib import closing
+from collections import OrderedDict
 try:
     from cStringIO import StringIO
 except ImportError:
@@ -48,6 +49,7 @@ def grep(pattern, *files_or_paths):
 
     return matches
 
+# Supports nested dicts
 class Struct(object):
     """Comment removed"""
     def __init__(self, data):
@@ -63,3 +65,21 @@ class Struct(object):
     def __repr__(self):
         return '{%s}' % str(', '.join('%s : %s' % (k, repr(v))\
             for (k, v) in self.__dict__.iteritems()))
+
+# SO: http://stackoverflow.com/a/5227863
+class MutableNamedTuple(OrderedDict):
+    def __init__(self, *args, **kwargs):
+        super(MutableNamedTuple, self).__init__(*args, **kwargs)
+        self._initialized = True
+
+    def __getattr__(self, name):
+        try:
+            return self[name]
+        except KeyError:
+            raise AttributeError(name)
+
+    def __setattr__(self, name, value):
+        if hasattr(self, '_initialized'):
+            super(MutableNamedTuple, self).__setitem__(name, value)
+        else:
+            super(MutableNamedTuple, self).__setattr__(name, value)
