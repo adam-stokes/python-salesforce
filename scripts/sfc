@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # vim:syntax=python
 # sfc - cli to salesforce api
-from sforce.client import SF
-from sforce.models import Schema
-from sforce.models.account import Account
 from pprint import pprint
+from sforce import COMMONS as c
+from sforce.client import sf_session
+from sforce.models import sf_obj_get, sf_obj_describe, sf_obj_update
+import os
 
 if __name__=="__main__":
-    sfc = SF(sandbox=True)
-    # Start a session
-    sfc.session
-    schema = Schema(sfc.commons)
-    acct = Account
-    pprint(acct().describe())
-    pprint(acct().get('001M000000P0UzbIAF'))
+    c['sandbox'] = True
+    c['client_key'] = os.environ['SFKEY']
+    c['client_secret'] = os.environ['SFSECRET']
+    # Intialize session
+    sf_session(c)
+    pprint(sf_obj_get(c, '001M000000P0UzbIAF', 'Account'))
