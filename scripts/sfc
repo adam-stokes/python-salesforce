@@ -3,6 +3,7 @@
 # sfc - cli to salesforce api
 from pprint import pprint
 from sforce import COMMONS as c
+from sforce.util import Struct
 from sforce.client import sf_session
 from sforce.models import sf_obj_get, sf_obj_describe, sf_obj_update
 import os
@@ -13,4 +14,9 @@ if __name__=="__main__":
     c['client_secret'] = os.environ['SFSECRET']
     # Intialize session
     sf_session(c)
-    pprint(sf_obj_get(c, '001M000000P0UzbIAF', 'Account'))
+    ret, res = sf_obj_get(c, '001M000000P0UzbIAF', 'Account')
+    pprint(res, indent=2)
+    pprint(res.Id)
+    pprint(res.attributes.type)
+    pprint(res.attributes.url)
+    pprint(res.BillingCity)

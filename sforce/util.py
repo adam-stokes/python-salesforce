@@ -47,3 +47,19 @@ def grep(pattern, *files_or_paths):
             matches.extend((line for line in fo if re.match(pattern, line)))
 
     return matches
+
+class Struct(object):
+    """Comment removed"""
+    def __init__(self, data):
+        for name, value in data.iteritems():
+            setattr(self, name, self._wrap(value))
+    def _wrap(self, value):
+        if isinstance(value, (tuple, list, set, frozenset)): 
+            return type(value)([self._wrap(v) for v in value])
+        else:
+            return Struct(value) if isinstance(value, dict) else value
+    def __getitem__(self, val):
+        return self.__dict__[val]
+    def __repr__(self):
+        return '{%s}' % str(', '.join('%s : %s' % (k, repr(v))\
+            for (k, v) in self.__dict__.iteritems()))

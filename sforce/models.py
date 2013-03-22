@@ -1,4 +1,5 @@
 from sforce import COMMONS as c
+from sforce.util import Struct
 from sforce.client import sf_service_path, sf_request
 
 def sf_sobjects(c):
@@ -20,10 +21,12 @@ def sf_obj_get(c, id, name):
         :param id: Salesforce resource ID
         :param name: Name of sobject
     """
-    return sf_request(c, 'GET', sf_service_path(c,
-                                                'sobjects',
-                                                name,
-                                                str(id)))
+
+    ret, res = sf_request(c, 'GET', sf_service_path(c,
+                                                    'sobjects',
+                                                    name,
+                                                    str(id)))
+    return (ret, Struct(res))
 
 def sf_obj_update(c, id, **kwds):
     """ Update resource ID using proper dictionary of available keys
