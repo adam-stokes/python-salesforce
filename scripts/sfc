@@ -14,7 +14,9 @@ if __name__=="__main__":
     c['client_secret'] = os.environ['SFSECRET']
     # Intialize session
     sf_session(c)
+    ret, res = sf_obj_describe(c, 'Account')
+
+    pprint(res)
+
     ret, res = sf_obj_get(c, '001M000000P0UzbIAF', 'Account')
-    pprint(res.Id)
-    pprint(res.attributes['type'])
-    pprint(res.BillingCity)
+    pprint(res, indent=2)
