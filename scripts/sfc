@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # vim:syntax=python
 # sfc - cli to salesforce api
-from pprint import pprint
 from sforce import COMMONS as c
-from sforce.util import Struct
 from sforce.client import sf_session
-from sforce.models import sf_obj_get, sf_obj_describe, sf_obj_update
+from sforce.models import (Base,
+                           Case,
+                           Account)
+import yaml
 import os
+
 
 if __name__=="__main__":
     c['sandbox'] = True
@@ -14,9 +16,9 @@ if __name__=="__main__":
     c['client_secret'] = os.environ['SFSECRET']
     # Intialize session
     sf_session(c)
-    ret, res = sf_obj_describe(c, 'Account')
-
-    pprint(res)
-
-    ret, res = sf_obj_get(c, '001M000000P0UzbIAF', 'Account')
-    pprint(res, indent=2)
+    case = Case(c)
+    account = Account(c)
+    ret, res = account.get('001M000000P0UzbIAF')
+    print yaml.dump(res)
+    ret, res = case.get('500M00000035FJj')
+    print yaml.dump(res)

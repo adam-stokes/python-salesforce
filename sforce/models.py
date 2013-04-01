@@ -1,38 +1,62 @@
 from sforce import COMMONS as c
 from sforce.util import Struct
 from sforce.client import sf_service_path, sf_request
+import yaml
 
-def sf_sobjects(c):
-    """ Returns available sobjects for defined salesforce version
-    """
-    return sf_request(c, 'GET', c['services']['sobjects'])
+class Base(object):
+    def __init__(self, commons):
+        self.c = commons
 
-def sf_obj_describe(c, name):
-    """ Describe a service object metadata
-        :param name: Name of sobject to describe
-    """
-    return sf_request(c, 'GET', sf_service_path(c,
-                                                'sobjects',
-                                                name))
+    @property
+    def _name(self):
+        """ return name of class instance
+        """
+        return self.__class__.__name__.capitalize()
 
-def sf_obj_get(c, id, name):
-    """ get a resource by ID
+    def sobjects(self):
+        """ Returns available sobjects for defined salesforce version
+        """
+        return sf_request(self.c, 'GET', self.c['services']['sobjects'])
 
-        :param id: Salesforce resource ID
-        :param name: Name of sobject
-    """
+    def describe(self):
+        """ Describe a service object metadata
+            :param name: Name of sobject to describe
+        """
+        ret, res = sf_request(self.c, 'GET', sf_service_path(self.c,
+                                                             'sobjects',
+                                                             self._name))
+        return yaml.dump(res)
 
-    ret, res = sf_request(c, 'GET', sf_service_path(c,
-                                                    'sobjects',
-                                                    name,
-                                                    str(id)))
-    return (ret, Struct(res))
+    def get(self, id):
+        """ get a resource by ID
 
-def sf_obj_update(c, id, **kwds):
-    """ Update resource ID using proper dictionary of available keys
+            :param id: Salesforce resource ID
+            :param name: Name of sobject
+        """
+
+        ret, res = sf_request(self.c, 'GET', sf_service_path(self.c,
+                                                             'sobjects',
+                                                             self._name,
+                                                             str(id)))
+        return (ret, Struct(res))
+
+    def update(c, id, **kwds):
+        """ Update resource ID using proper dictionary of available keys
         from a returned resource
 
         :param id: Salesforce resource ID
         :param kwds: Field names, values to update
-    """
+        """
+        pass
+
+class Account(Base):
+    pass
+
+class Case(Base):
+    pass
+
+class Lead(Base):
+    pass
+
+class Asset(Base):
     pass
