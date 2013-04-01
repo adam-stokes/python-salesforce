@@ -2,12 +2,13 @@
 # vim:syntax=python
 # sfc - cli to salesforce api
 from sforce import COMMONS as c
-from sforce.client import sf_session
+from sforce.client import sf_session, sf_services
 from sforce.models import (Base,
                            Case,
                            Account)
 import yaml
 import os
+from pprint import pprint
 
 
 if __name__=="__main__":
@@ -17,8 +18,12 @@ if __name__=="__main__":
     # Intialize session
     sf_session(c)
     case = Case(c)
-    account = Account(c)
-    ret, res = account.get('001M000000P0UzbIAF')
-    print yaml.dump(res)
-    ret, res = case.get('500M00000035FJj')
-    print yaml.dump(res)
+    _base = Base(c)
+    pprint(sf_services(c))
+    
+#    account = Account(c)
+#    ret, res = account.get('001M000000P0UzbIAF')
+#    print yaml.dump(res)
+#    ret, res = case.get('500M00000035FJj')
+#    ret, res = case.comments('500M00000035FJj')
+#    print yaml.dump(res)

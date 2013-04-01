@@ -49,6 +49,15 @@ class Base(object):
         """
         pass
 
+    def query(self, query):
+        """ SOQL
+        """
+        query_str = "+".join(args)
+        ret, res = sf_request(self.c, 'GET', sf_service_path(self.c,
+                                                             'query',
+                                                             query_str))
+        return (ret, Struct(res))
+
 class Account(Base):
     pass
 
