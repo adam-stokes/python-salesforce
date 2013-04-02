@@ -43,6 +43,7 @@ def sf_service_path(c, name, *args):
         :param **args: Arguments appended to service url
     """
     _args = "/".join(args)
+    pprint("/".join((c['services'][name], _args)))
     return "/".join((c['services'][name], _args))
 
 def sf_request(c, method, endpoint):

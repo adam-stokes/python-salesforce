@@ -2,14 +2,14 @@
 # vim:syntax=python
 # sfc - cli to salesforce api
 from sforce import COMMONS as c
-from sforce.client import sf_session, sf_services
+from sforce.client import sf_session
 from sforce.models import (Base,
                            Case,
-                           Account)
+                           Account,
+                           Asset)
 import yaml
 import os
 from pprint import pprint
-
 
 if __name__=="__main__":
     c['sandbox'] = True
@@ -18,12 +18,16 @@ if __name__=="__main__":
     # Intialize session
     sf_session(c)
     case = Case(c)
-    _base = Base(c)
-    pprint(sf_services(c))
-    
-#    account = Account(c)
-#    ret, res = account.get('001M000000P0UzbIAF')
-#    print yaml.dump(res)
-#    ret, res = case.get('500M00000035FJj')
-#    ret, res = case.comments('500M00000035FJj')
-#    print yaml.dump(res)
+    acct = Account(c)
+    asst = Asset(c)
+    ret, case_res = case.by_id('500M00000035FJj')
+    # Case attributes
+    print yaml.dump(case_res)
+    # Associated case comments
+    print yaml.dump(case_res.Comments)
+    # Account info from case
+    ret, acct_res = acct.by_id(case_res.AccountId)
+    print yaml.dump(acct_res)
+    # Asset info from case
+    ret, asset_res = asst.by_id(case_res.AssetId)
+    print yaml.dump(asset_res)
