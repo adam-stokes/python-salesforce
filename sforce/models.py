@@ -57,16 +57,31 @@ class Base(object):
         """
         pass
 
+    def by_name(self, name):
+        """ Stub for searching by name value
+        """
+        pass
+
     def all(self, **kwds):
         """ Stub for all records filtered or not
         """
         pass
 
 class Account(Base):
+    def __cases(self, id):
+        """ Pull associated cases for AccountId
+        """
+        return self.query('SELECT Id, CaseNumber, Subject '\
+                          'FROM Case '\
+                          'WHERE AccountId=\'%s\'' % (str(id),))
+
     def by_id(self, id):
         ret, acct = self._get(id)
         if ret == 0:
-            return (ret, acct)
+            ret, cases = self.__cases(id)
+            if ret == 0:
+                acct.Cases = [cases]
+        return (ret, acct)
 
 class Case(Base):
     def __comments(self, id):
@@ -74,7 +89,7 @@ class Case(Base):
         """
         return self.query('SELECT Id, CommentBody, CreatedDate, IsPublished '\
                           'FROM CaseComment '\
-                          'Where ParentId=\'%s\'' % (str(id),))
+                          'WHERE ParentId=\'%s\'' % (str(id),))
 
     def by_id(self, id):
         ret, case = self._get(id)

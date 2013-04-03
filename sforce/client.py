@@ -1,4 +1,3 @@
-from pprint import pprint
 from requests_oauthlib import OAuth1
 from sforce import (COMMONS as c,
                     container)
@@ -43,7 +42,6 @@ def sf_service_path(c, name, *args):
         :param **args: Arguments appended to service url
     """
     _args = "/".join(args)
-    pprint("/".join((c['services'][name], _args)))
     return "/".join((c['services'][name], _args))
 
 def sf_request(c, method, endpoint):
@@ -90,4 +88,3 @@ if __name__=="__main__":
     c['client_secret'] = os.environ['SFSECRET']
     # Intialize session
     sf_session(c)
-    pprint(c)
