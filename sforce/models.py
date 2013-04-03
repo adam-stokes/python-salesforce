@@ -80,7 +80,7 @@ class Account(Base):
         if ret == 0:
             ret, cases = self.__cases(id)
             if ret == 0:
-                acct.Cases = [cases]
+                acct.Cases = cases
         return (ret, acct)
 
 class Case(Base):
@@ -96,7 +96,7 @@ class Case(Base):
         if ret == 0:
             ret, comments = self.__comments(id)
             if ret == 0:
-                case.Comments = [comments]
+                case.Comments = comments
         return (ret, case)
         
 
