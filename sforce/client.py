@@ -71,6 +71,7 @@ def sf_session(c):
         This method is required in order to perform requests again the REST
         interface
     """
+    sf_load_creds(c)
     oauth = OAuth1(c["client_key"],
                    client_secret=c["client_secret"],
                    resource_owner_key=c['oauth_token'],
@@ -91,9 +92,6 @@ def sf_session(c):
 
 # Test
 if __name__=="__main__":
-    c = {}
-    sf_load_creds(c)
-
     c['sandbox'] = True
     c['client_key'] = os.environ['SFKEY']
     c['client_secret'] = os.environ['SFSECRET']
