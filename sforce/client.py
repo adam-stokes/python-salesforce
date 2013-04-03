@@ -7,11 +7,19 @@ import json
 import os
 import requests
 
-_creds = json.load(open(os.path.join(os.path.expanduser("~"),
-                                     ".sfcreds.json")))
+def sf_load_creds(c):
+    """ Load sf creds
+    """
+    _creds_fp = None
+    try:
+        _creds_fp = open(os.path.join(os.path.expanduser("~"),".sfcreds.json"))
+    except IOError:
+        print("Cannot locate ~/.sfcreds.json")
+        return
 
-c['oauth_token'] = _creds['oauth_token']
-c['oauth_token_secret'] = _creds['oauth_token_secret']
+    _creds = json.load(_creds_fp)
+    c['oauth_token'] = _creds['oauth_token']
+    c['oauth_token_secret'] = _creds['oauth_token_secret']
 
 def sf_api(c):
     if c['sandbox']:
@@ -83,6 +91,9 @@ def sf_session(c):
 
 # Test
 if __name__=="__main__":
+    c = {}
+    sf_load_creds(c)
+
     c['sandbox'] = True
     c['client_key'] = os.environ['SFKEY']
     c['client_secret'] = os.environ['SFSECRET']
