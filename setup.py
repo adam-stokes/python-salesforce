@@ -24,7 +24,7 @@ setup(
     name='python-salesforce',
     version=sforce.__version__,
     description='Python Salesforce auth/authorization client.',
-    long_description=open('README').read() + '\n\n' +
+    long_description=open('README.md').read() + '\n\n' +
                      open('HISTORY.rst').read(),
     author='Adam Stokes',
     author_email='adam.stokes@ubuntu.com',
