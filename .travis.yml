@@ -5,6 +5,12 @@ python:
   - 3.2
   - 3.3
   - "pypy"
+matrix:
+  allow_failures:
+    - python: 3.2
+    - python: 3.3
+notifications:
+  email: false
 env:
   - DEPS=false
 install:
