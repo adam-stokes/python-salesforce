@@ -4,7 +4,7 @@ Pygments==1.6
 argparse==1.2.1
 bottle==0.11.6
 bpython==0.12
-distribute==0.6.24
+distribute==0.6.35
 oauthlib==0.3.8
 pyOpenSSL==0.13
 requests==1.1.0
