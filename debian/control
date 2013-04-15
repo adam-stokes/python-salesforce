@@ -1,16 +1,18 @@
 Source: python-salesforce
-Priority: extra
-Maintainer: Adam Stokes <Adam Stokes <adam.stokes@ubuntu.com>>
-Build-Depends: debhelper (>= 8.0.0)
-Standards-Version: 3.9.2
-Section: libs
+Priority: optional
+Maintainer: Adam Stokes <adam.stokes@ubuntu.com>
+Build-Depends: debhelper (>= 9), python (>=2.7), python-nose
+Standards-Version: 3.9.4
+Section: python
 Homepage: https://github.com/debugmonkey/python-salesforce
-#Vcs-Git: git://git.debian.org/collab-maint/python-salesforce.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/python-salesforce.git;a=summary
+Vcs-Git: https://github.com/debugmonkey/python-salesforce.git
+Vcs-Browser: https://github.com/debugmonkey/python-salesforce
 
 Package: python-salesforce
-Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Depends: ${python:Depends}, ${misc:Depends}, python-bottle, python-oauthlib, python-openssl, python-yaml, python-cherrypy3, bpython, python-pygments
+Description: Salesforce authorization and client library
+ Python-salesforce is a OAuth 1.0a authorization
+ and a RESTful client for interfacing with Salesforce
+ REST API. This library supports Salesforce API v27.0 and
+ above.
