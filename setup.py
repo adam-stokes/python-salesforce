@@ -22,9 +22,9 @@ requires = []
 
 setup(
     name='python-salesforce',
-    version='0.1',
+    version=sforce.__version__,
     description='Python Salesforce auth/authorization client.',
-    long_description=open('README.rst').read() + '\n\n' +
+    long_description=open('README.md').read() + '\n\n' +
                      open('HISTORY.rst').read(),
     author='Adam Stokes',
     author_email='adam.stokes@ubuntu.com',
