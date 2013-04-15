@@ -1,0 +1,16 @@
+Source: python-salesforce
+Priority: extra
+Maintainer: Adam Stokes <Adam Stokes <adam.stokes@ubuntu.com>>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+Section: libs
+Homepage: https://github.com/debugmonkey/python-salesforce
+#Vcs-Git: git://git.debian.org/collab-maint/python-salesforce.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/python-salesforce.git;a=summary
+
+Package: python-salesforce
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
