@@ -11,6 +11,13 @@
 
 %:
 	dh $@ --with python2
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf $(CURDIR)/python_salesforce.egg-info
+	rm -rf $(CURDIR)/dist
+
 override_dh_auto_install:
 	dh_auto_install
 	rm -f $(CURDIR)/debian/python-salesforce/usr/share/python-salesforce/LICENSE
+
+override_dh_auto_test:

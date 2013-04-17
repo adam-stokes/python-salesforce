@@ -32,6 +32,7 @@ setup(
     packages=packages,
     package_data={'': ['LICENSE']},
     package_dir={'sforce': 'sforce'},
+    scripts=['scripts/sf-exchange-auth', 'scripts/sf-cli'],
     include_package_data=True,
     install_requires=requires,
     license=open('LICENSE').read(),
