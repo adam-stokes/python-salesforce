@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/debugmonkey/python-salesforce
 
 Package: python-salesforce
 Architecture: any
-Depends: ${python:Depends}, ${misc:Depends}, python-bottle, python-oauthlib, python-openssl, python-yaml, python-cherrypy3, python-pygments, python-requests, requests-oauthlib
+Depends: ${python:Depends}, ${misc:Depends}, python-bottle, python-oauthlib, python-openssl, python-yaml, python-cherrypy3, python-pygments, python-requests, python-requests-oauthlib
 Description: Salesforce authorization and client library
  Python-salesforce is a OAuth 1.0a authorization
  and a RESTful client for interfacing with Salesforce
