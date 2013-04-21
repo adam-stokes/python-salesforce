@@ -2,32 +2,37 @@
 # vim:syntax=python
 # sfc - cli to salesforce api
 from sforce import COMMONS as c
-from sforce.client import sf_session
-from sforce.models import (Base,
-                           Case,
-                           Account,
-                           Asset)
+from sforce.cmd import CMD
+
 import yaml
 import os
-from pprint import pprint
+import sys
 
 if __name__=="__main__":
     c['sandbox'] = True
-    c['client_key'] = os.environ['SFKEY']
-    c['client_secret'] = os.environ['SFSECRET']
-    # Intialize session
-    sf_session(c)
-    case = Case(c)
-    acct = Account(c)
-    asst = Asset(c)
-    ret, case_res = case.by_id('500M00000035FJj')
+    try:
+        c['client_key'] = os.environ['SFKEY']
+    except:
+        raise Exception('No Salesforce key')
+    try:
+        c['client_secret'] = os.environ['SFSECRET']
+    except:
+        raise Exception('No Salesforce secret')
+
+    sys.exit(CMD(c).run())
+    
+    # case = Case(c)
+    # acct = Account(c)
+    # asst = Asset(c)
+    # ret, case_res = case.by_id('500M00000035FJj')
     # Case attributes
     # print yaml.dump(case_res)
     # Associated case comments
     # print yaml.dump(case_res.Comments)
     # Account info from case
-    ret, acct_res = acct.by_id(case_res.AccountId)
-    print yaml.dump(acct_res)
+    #ret, acct_res = acct.by_id(case_res.AccountId)
+    #acct_info = acct.by_name('Googl')
+    #print yaml.dump(acct_info, default_flow_style=False)
     # Cases by account
     # print yaml.dump(acct_res.Cases)
     # Asset info from case

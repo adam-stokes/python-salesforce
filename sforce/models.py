@@ -75,9 +75,17 @@ class Account(Base):
                           'FROM Case '\
                           'WHERE AccountId=\'%s\'' % (str(id),))
 
-    def by_id(self, id):
+    def by_name(self, name):
+        """ Fuzzy search by account name
+        """
+        return self.query('SELECT Id, AnnualRevenue, Name, '\
+                          'Phone, Rating, TickerSymbol, Type '\
+                          'FROM Account '\
+                          'WHERE Name like \'%s%%\'' % (name,))
+
+    def by_id(self, id, include_cases=False):
         ret, acct = self._get(id)
-        if ret == 0:
+        if ret == 0 and include_cases:
             ret, cases = self.__cases(id)
             if ret == 0:
                 acct.Cases = cases
@@ -91,9 +99,9 @@ class Case(Base):
                           'FROM CaseComment '\
                           'WHERE ParentId=\'%s\'' % (str(id),))
 
-    def by_id(self, id):
+    def by_id(self, id, include_comments=False):
         ret, case = self._get(id)
-        if ret == 0:
+        if ret == 0 and include_comments:
             ret, comments = self.__comments(id)
             if ret == 0:
                 case.Comments = comments
