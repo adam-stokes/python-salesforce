@@ -4,7 +4,7 @@
 import argparse
 import sys
 import logging
-import yaml
+import json
 from sforce.client import sf_session
 from sforce.models import Account, Case
 
@@ -22,16 +22,16 @@ class CMD(object):
         logging.debug("Running Account Queries")
         acct = Account(self.commons)
         if options.id:
-            print(yaml.dump(acct.by_id(options.id), tags=None))
+            print(json.dumps(acct.by_id(options.id)))
         if options.name:
-            print(yaml.dump(acct.by_name(options.name), tags=None))
+            print(json.dumps(acct.by_name(options.name)))
 
     def cmd_case(self, options):
         """ parses case cli
         """
         case = Case(self.commons)
         if options.number:
-            print(yaml.dump(case.by_id(options.number), tags=None))
+            print(case.by_id(options.number))
             
 
     def parse_options(self, *args, **kwds):
