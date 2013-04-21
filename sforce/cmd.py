@@ -31,7 +31,7 @@ class CMD(object):
         """
         case = Case(self.commons)
         if options.number:
-            print(case.by_id(options.number))
+            print(json.dumps(case.by_id(options.number)))
             
 
     def parse_options(self, *args, **kwds):
