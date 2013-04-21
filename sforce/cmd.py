@@ -22,16 +22,16 @@ class CMD(object):
         logging.debug("Running Account Queries")
         acct = Account(self.commons)
         if options.id:
-            print(yaml.dump(acct.by_id(options.id)))
+            print(yaml.dump(acct.by_id(options.id), tags=None))
         if options.name:
-            print(yaml.dump(acct.by_name(options.name)))
+            print(yaml.dump(acct.by_name(options.name), tags=None))
 
     def cmd_case(self, options):
         """ parses case cli
         """
         case = Case(self.commons)
         if options.number:
-            print(yaml.dump(case.by_id(options.number)))
+            print(yaml.dump(case.by_id(options.number), tags=None))
             
 
     def parse_options(self, *args, **kwds):
