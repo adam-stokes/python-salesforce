@@ -79,7 +79,7 @@ class Account(Base):
         return self.query('SELECT Id, AnnualRevenue, Name, '\
                           'Phone, Rating, TickerSymbol, Type '\
                           'FROM Account '\
-                          'WHERE Name like \'%s%%\'' % (name,))
+                          'WHERE Name like \'%%%s%%\'' % (name,))
 
     def by_id(self, id, include_cases=False):
         ret, acct = self._get(id)
