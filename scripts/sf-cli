@@ -9,7 +9,7 @@ import os
 import sys
 
 if __name__=="__main__":
-    c['sandbox'] = True
+    c['sandbox'] = False
     try:
         c['client_key'] = os.environ['SFKEY']
     except:
