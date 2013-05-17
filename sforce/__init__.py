@@ -9,7 +9,7 @@ COMMONS = dict(
                access_path="/_nc_external/system/security/oauth/AccessTokenHandler",
                oauth_token=None,
                oauth_token_secret=None,
-               sandbox=False,
+               sandbox=True,
                containment=("https://test.salesforce.com",
                             "https://login.salesforce.com",),
                services=None,

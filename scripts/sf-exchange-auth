@@ -19,7 +19,7 @@ from sforce.auth import request_phase, authorize_phase, access_phase
 c['client_key'] = os.environ['SFKEY']
 c['client_secret'] = os.environ['SFSECRET']
 c['callback_uri'] = 'https://localhost:4443/callback'
-c['sandbox'] = False
+c['sandbox'] = True
 
 # from http://dgtool.blogspot.com.au/2011/12/ssl-encryption-in-python-bottle.html
 # need to support SSL on localhost b/c Salesforce requires it

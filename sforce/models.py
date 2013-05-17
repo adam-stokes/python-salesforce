@@ -101,8 +101,7 @@ class Case(Base):
         ret, case = self._get(id)
         if ret == 0 and include_comments:
             ret, comments = self.__comments(id)
-            if ret == 0:
-                case.Comments = comments
+            case['Comments'] = comments
         return (ret, case)
         
 

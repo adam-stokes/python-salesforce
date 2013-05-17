@@ -2,6 +2,7 @@
 # vim:syntax=python
 # sfc - cli to salesforce api
 from sforce import COMMONS as c
+from sforce.client import sf_load_creds
 from sforce.cmd import CMD
 
 import yaml
@@ -9,7 +10,8 @@ import os
 import sys
 
 if __name__=="__main__":
-    c['sandbox'] = False
+    sf_load_creds(c)
+    c['sandbox'] = True
     try:
         c['client_key'] = os.environ['SFKEY']
     except:

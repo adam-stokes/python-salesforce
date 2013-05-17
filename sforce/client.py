@@ -71,7 +71,6 @@ def sf_session(c):
         This method is required in order to perform requests again the REST
         interface
     """
-    sf_load_creds(c)
     oauth = OAuth1(c["client_key"],
                    client_secret=c["client_secret"],
                    resource_owner_key=c['oauth_token'],
