@@ -6,6 +6,7 @@ from xml.etree.ElementTree import XML, fromstring, tostring
 import json
 import os
 import requests
+import sys
 
 def sf_load_creds(c):
     """ Load sf creds
@@ -14,8 +15,8 @@ def sf_load_creds(c):
     try:
         _creds_fp = open(os.path.join(os.path.expanduser("~"),".sfcreds.json"))
     except IOError:
-        print("Cannot locate ~/.sfcreds.json")
-        return
+        print("Cannot locate ~/.sfcreds.json; youll need to run sf-exchange-auth first.")
+        sys.exit(127)
 
     _creds = json.load(_creds_fp)
     c['oauth_token'] = _creds['oauth_token']

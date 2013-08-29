@@ -18,7 +18,7 @@ packages = [
     'sforce',
 ]
 
-requires = []
+requires = ['requests-oauthlib', 'PyYAML', 'bottle', 'CherryPy', 'pyOpenSSL']
 
 setup(
     name='python-salesforce',
