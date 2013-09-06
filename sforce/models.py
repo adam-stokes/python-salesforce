@@ -73,11 +73,18 @@ class Account(Base):
                           'FROM Case '\
                           'WHERE AccountId=\'%s\'' % (str(id),))
 
+    # def by_name(self, name):
+    #     """ Fuzzy search by account name
+    #     """
+    #     return self.query('SELECT Id, AnnualRevenue, Name, '\
+    #                       'Phone, Rating, TickerSymbol, Type '\
+    #                       'FROM Account '\
+    #                       'WHERE Name like \'%%%s%%\'' % (name,))
+
     def by_name(self, name):
         """ Fuzzy search by account name
         """
-        return self.query('SELECT Id, AnnualRevenue, Name, '\
-                          'Phone, Rating, TickerSymbol, Type '\
+        return self.query('SELECT * '\
                           'FROM Account '\
                           'WHERE Name like \'%%%s%%\'' % (name,))
 
