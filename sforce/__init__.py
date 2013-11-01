@@ -1,4 +1,4 @@
-__version__ = "0.0.1"
+__version__ = "0.2.0"
 COMMONS = dict(
                api_version='27.0',
                client_key=None,
@@ -9,7 +9,7 @@ COMMONS = dict(
                access_path="/_nc_external/system/security/oauth/AccessTokenHandler",
                oauth_token=None,
                oauth_token_secret=None,
-               sandbox=False,
+               sandbox=True,
                containment=("https://test.salesforce.com",
                             "https://login.salesforce.com",),
                services=None,

@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+# vim:syntax=python
+# sfc - cli to salesforce api
+from sforce import COMMONS as c
+from sforce.client import sf_load_creds
+from sforce.cmd import CMD
+
+import yaml
+import os
+import sys
+
+if __name__=="__main__":
+    sf_load_creds(c)
+    c['sandbox'] = True
+    try:
+        c['client_key'] = os.environ['SFKEY']
+    except:
+        raise Exception('No Salesforce key')
+    try:
+        c['client_secret'] = os.environ['SFSECRET']
+    except:
+        raise Exception('No Salesforce secret')
+
+    sys.exit(CMD(c).run())
+    
+    # case = Case(c)
+    # acct = Account(c)
+    # asst = Asset(c)
+    # ret, case_res = case.by_id('500M00000035FJj')
+    # Case attributes
+    # print yaml.dump(case_res)
+    # Associated case comments
+    # print yaml.dump(case_res.Comments)
+    # Account info from case
+    #ret, acct_res = acct.by_id(case_res.AccountId)
+    #acct_info = acct.by_name('Googl')
+    #print yaml.dump(acct_info, default_flow_style=False)
+    # Cases by account
+    # print yaml.dump(acct_res.Cases)
+    # Asset info from case
+    #ret, asset_res = asst.by_id(case_res.AssetId)
+    #print yaml.dump(asset_res)

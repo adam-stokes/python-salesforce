@@ -1,8 +1,6 @@
 from sforce import COMMONS as c
-from sforce.util import Struct
 from sforce.client import sf_service_path, sf_request
 import urllib
-import yaml
 
 class Base(object):
     def __init__(self, commons):
@@ -26,7 +24,7 @@ class Base(object):
         ret, res = sf_request(self.c, 'GET', sf_service_path(self.c,
                                                              'sobjects',
                                                              self._name))
-        return yaml.dump(res)
+        return (ret, res)
 
     def _get(self, id):
         """ get a resource by ID
@@ -39,7 +37,7 @@ class Base(object):
                                                              'sobjects',
                                                              self._name,
                                                              str(id)))
-        return (ret, Struct(res))
+        return (ret, res)
 
     def query(self, q):
         """ query soql
@@ -50,7 +48,7 @@ class Base(object):
         ret, res = sf_request(self.c, 'GET', sf_service_path(self.c,
                                                              'query',
                                                              munge_query))
-        return (ret, Struct(res))
+        return (ret, res)
 
     def by_id(self, id):
         """ Stub for searching sobject by parentid/id
@@ -75,9 +73,24 @@ class Account(Base):
                           'FROM Case '\
                           'WHERE AccountId=\'%s\'' % (str(id),))
 
-    def by_id(self, id):
+    # def by_name(self, name):
+    #     """ Fuzzy search by account name
+    #     """
+    #     return self.query('SELECT Id, AnnualRevenue, Name, '\
+    #                       'Phone, Rating, TickerSymbol, Type '\
+    #                       'FROM Account '\
+    #                       'WHERE Name like \'%%%s%%\'' % (name,))
+
+    def by_name(self, name):
+        """ Fuzzy search by account name
+        """
+        return self.query('SELECT * '\
+                          'FROM Account '\
+                          'WHERE Name like \'%%%s%%\'' % (name,))
+
+    def by_id(self, id, include_cases=False):
         ret, acct = self._get(id)
-        if ret == 0:
+        if ret == 0 and include_cases:
             ret, cases = self.__cases(id)
             if ret == 0:
                 acct.Cases = cases
@@ -91,12 +104,11 @@ class Case(Base):
                           'FROM CaseComment '\
                           'WHERE ParentId=\'%s\'' % (str(id),))
 
-    def by_id(self, id):
+    def by_id(self, id, include_comments=False):
         ret, case = self._get(id)
-        if ret == 0:
+        if ret == 0 and include_comments:
             ret, comments = self.__comments(id)
-            if ret == 0:
-                case.Comments = comments
+            case['Comments'] = comments
         return (ret, case)
         
 
