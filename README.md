@@ -17,3 +17,7 @@ Examples:
 
 Copyright 2013 Adam Stokes <adam.stokes@ubuntu.com>
 MIT
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/battlemidget/python-salesforce/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
