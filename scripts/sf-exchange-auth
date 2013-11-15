@@ -7,7 +7,6 @@
 # A few requirements::
 # pip install cherrypy bottle pyopenssl
 
-import urlparse
 import os
 import sys
 import json

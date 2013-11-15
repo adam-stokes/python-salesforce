@@ -1,7 +1,7 @@
 from requests_oauthlib import OAuth1
 from sforce import (COMMONS as c,
                     container)
-from urlparse import urlparse, urljoin
+from urllib.parse import urlparse, urljoin
 from xml.etree.ElementTree import XML, fromstring, tostring
 import json
 import os

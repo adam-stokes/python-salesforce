@@ -1,6 +1,6 @@
 from requests_oauthlib import OAuth1
 from sforce import container
-from urlparse import parse_qs
+from urllib.parse import parse_qs
 import requests
 
 def request_phase(c):
