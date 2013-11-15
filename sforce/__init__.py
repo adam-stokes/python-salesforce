@@ -1,4 +1,5 @@
-__version__ = "0.2.0"
+__version__ = "0.3.0-dev"
+
 COMMONS = dict(
                api_version='27.0',
                client_key=None,

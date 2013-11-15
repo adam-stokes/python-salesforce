@@ -3,7 +3,7 @@
 # sfc - cli to salesforce api
 from sforce import COMMONS as c
 from sforce.client import sf_load_creds
-from sforce.cmd import CMD
+from sforce.cmd import App
 
 import yaml
 import os
@@ -21,7 +21,7 @@ if __name__=="__main__":
     except:
         raise Exception('No Salesforce secret')
 
-    sys.exit(CMD(c).run())
+    sys.exit(App(c).run())
     
     # case = Case(c)
     # acct = Account(c)

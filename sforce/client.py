@@ -1,6 +1,5 @@
 from requests_oauthlib import OAuth1
-from sforce import (COMMONS as c,
-                    container)
+from sforce import COMMONS as c
 from urllib.parse import urlparse, urljoin
 from xml.etree.ElementTree import XML, fromstring, tostring
 import json
@@ -10,6 +9,8 @@ import sys
 
 def sf_load_creds(c):
     """ Load sf creds
+
+    :param c: common attributes
     """
     _creds_fp = None
     try:
@@ -23,6 +24,10 @@ def sf_load_creds(c):
     c['oauth_token_secret'] = _creds['oauth_token_secret']
 
 def sf_api(c):
+    """ api endpoint
+
+    :param c: common attributes
+    """
     if c['sandbox']:
         c['api_url'] = "https://test.salesforce.com/services/OAuth/u/%s"\
                 % (c['api_version'],)
@@ -56,6 +61,10 @@ def sf_service_path(c, name, *args):
 def sf_request(c, method, endpoint):
     """ Formulates a proper request
         based on intended verb
+
+    :param c: common attributes
+    :param method: HTTP Verb
+    :param endpoint: salesforce endpoint
     """
     if c['sessionId'] == None or c['serverUrl'] == None:
         return(127, "No session or endpoint found")
@@ -71,6 +80,8 @@ def sf_session(c):
     """ Entry point to accessing Salesforce API.
         This method is required in order to perform requests again the REST
         interface
+
+    :param c: common attributes
     """
     oauth = OAuth1(c["client_key"],
                    client_secret=c["client_secret"],

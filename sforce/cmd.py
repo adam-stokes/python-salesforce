@@ -6,9 +6,9 @@ import sys
 import logging
 import json
 from sforce.client import sf_session
-from sforce.models import Account, Case
+from sforce.models import SObj
 
-class CMD(object):
+class App(object):
     def __init__(self, commons):
         self.commons = commons
         self.args = self.parse_options(sys.argv)
@@ -20,18 +20,16 @@ class CMD(object):
         """ parses account cli
         """
         logging.debug("Running Account Queries")
-        acct = Account(self.commons)
+        sobj = SObj('Account', commons=self.commons)
         if options.id:
-            print(json.dumps(acct.by_id(options.id)))
-        if options.name:
-            print(json.dumps(acct.by_name(options.name)))
+            print(json.dumps(sobj.by_id(options.id)))
 
     def cmd_case(self, options):
         """ parses case cli
         """
-        case = Case(self.commons)
+        sobj = SObj('Case', commons=self.commons)
         if options.number:
-            print(json.dumps(case.by_id(options.number, True)))
+            print(json.dumps(case.by_id(options.number)))
             
 
     def parse_options(self, *args, **kwds):
