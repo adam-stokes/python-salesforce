@@ -1,5 +1,4 @@
 CherryPy
-PyYAML
 Pygments
 bottle
 oauthlib
